@@ -1,0 +1,44 @@
+version: '3'
+services:
+    app:
+        container_name: app
+        build:
+            context: ".."
+            dockerfile: "./docker/php/Dockerfile"
+        volumes:
+            - ../web/:/var/www/
+            - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
+        environment:
+            - PHP_IDE_CONFIG=serverName=localhost
+        networks:
+            - backend
+    webserver:
+        container_name: webserver
+        build:
+            context: ".."
+            dockerfile: "./docker/nginx/Dockerfile"
+        depends_on:
+            - app
+        volumes:
+            - ../web/public:/var/www/public
+            - ./nginx/conf.d/:/etc/nginx/conf.d/
+        ports:
+            - ${WEBSERVER_PORT}:80
+        networks:
+            - backend
+            - frontend
+    db:
+        container_name: db
+        image: mysql
+        environment:
+            MYSQL_DATABASE: transfer_funds
+            MYSQL_ROOT_PASSWORD: secret
+        volumes:
+            - ../storage/dbdata:/var/lib/mysql
+        networks:
+            - backend
+networks:
+    backend:
+        driver: bridge
+    frontend:
+        driver: bridge
