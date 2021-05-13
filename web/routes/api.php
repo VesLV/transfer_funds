@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,7 +12,8 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::post('/client', 'App\Http\Controllers\ClientController@createClient');
+Route::get('/client/{clientId}', 'App\Http\Controllers\ClientController@getClient');
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::post('/account', 'App\Http\Controllers\AccountController@createAccount');
+Route::get('/account/{accountId}', 'App\Http\Controllers\AccountController@getAccount');
