@@ -39,7 +39,7 @@ class ClientController extends Controller
             return response('Client already exists', JsonResponse::HTTP_BAD_REQUEST);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
-            return response('Internal server error, please try again', JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+            return response('Internal server error, please try again', $e->getCode());
         }
     }
 

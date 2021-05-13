@@ -19,7 +19,7 @@ class AccountService
         if (!$client) {
             throw new \RuntimeException('Client not found');
         }
-
+        $data['currency'] = strtoupper($data['currency']);
         $account = Account::firstOrNew(['client_id' => $data['client'], 'currency' => $data['currency']], $data);
         if ($account->exists) {
             throw new \RuntimeException('Account for client: ' . $data['client'] . ' with currency: ' . $data['currency'] . ' already exists!');

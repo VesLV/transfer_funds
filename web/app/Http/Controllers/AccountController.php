@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Services\AccountService;
 use App\Http\Utils\ResponseBuilder;
 use App\Models\Account;
-use App\Models\Client;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -39,7 +38,7 @@ class AccountController extends Controller
             return response($e->getMessage(), JsonResponse::HTTP_BAD_REQUEST);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
-            return response('Internal server error, please try again', JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+            return response('Internal server error, please try again', $e->getCode());
         }
     }
 
@@ -55,5 +54,10 @@ class AccountController extends Controller
         }
 
         return response(ResponseBuilder::accountResponse($account), JsonResponse::HTTP_OK);
+    }
+
+    public function getAccountHistory($accountId)
+    {
+
     }
 }
