@@ -17,7 +17,7 @@ class Transaction implements \JsonSerializable
     private $receiver;
 
     /**
-     * @var string
+     * @var float
      */
     private $amount;
 
@@ -65,18 +65,18 @@ class Transaction implements \JsonSerializable
     }
 
     /**
-     * @return string
+     * @return float
      */
-    public function getAmount(): string
+    public function getAmount(): float
     {
         return $this->amount;
     }
 
     /**
-     * @param string $amount
+     * @param float $amount
      * @return Transaction
      */
-    public function setAmount(string $amount): Transaction
+    public function setAmount(float $amount): Transaction
     {
         $this->amount = $amount;
 

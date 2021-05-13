@@ -45,7 +45,7 @@ class TransferService
         }
 
         $sender->balance = $balance;
-        $receiver->balance = $receiver->balance + (float) $transaction->getAmount();
+        $receiver->balance = $receiver->balance + $transaction->getAmount();
 
         $transaction = \App\Models\Transaction::create($transaction->jsonSerialize());
         $sender->save();
@@ -65,7 +65,7 @@ class TransferService
         if ($account->currency !== $transaction->getCurrency()) {
             $senderTransferAmount = $this->currencyConversion->conversion($transaction->getCurrency(), $account->currency, $transaction->getAmount());
         }
-        $balance = $account->balance - (float) $senderTransferAmount;
+        $balance = $account->balance - $senderTransferAmount;
         if ($balance < 0) {
             return false;
         }
