@@ -69,7 +69,7 @@ class AccountController extends Controller
            $response = $transferService->getTransferHistory($accountId, $request->all());
         } catch (\Exception $e) {
             Log::error($e->getMessage());
-            return response('Retreiving transferHistory failed, plese try again.', $e->getCode());
+            return response('Retreiving transfer history failed, please try again.', $e->getCode());
         }
 
         return response($response, JsonResponse::HTTP_OK);

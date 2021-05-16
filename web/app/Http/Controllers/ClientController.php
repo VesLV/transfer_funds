@@ -15,9 +15,9 @@ class ClientController extends Controller
 {
 
     /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Http\Services\ClientService $clientService
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param ClientService $clientService
+     * @return Response
      */
     public function createClient(Request $request, ClientService $clientService): Response
     {
@@ -45,7 +45,7 @@ class ClientController extends Controller
 
     /**
      * @param $clientId
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function getClient($clientId): Response
     {

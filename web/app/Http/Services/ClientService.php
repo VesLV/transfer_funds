@@ -14,7 +14,7 @@ class ClientService
     {
         $client = Client::firstOrNew(['name' => $data['name'], 'surname' => $data['surname']], $data);
         if ($client->exists) {
-            throw new \RuntimeException('Client: ' . $data['name'] . ' ' . $data['surname'] . ' already exists!');
+            throw new \RuntimeException('Client: ' . $client->name . ' ' . $client->surname . ' already exists!');
         }
         return $client->save();
     }
