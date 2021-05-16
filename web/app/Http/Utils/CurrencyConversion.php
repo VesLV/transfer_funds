@@ -10,12 +10,12 @@ use Illuminate\Support\Facades\Log;
 class CurrencyConversion
 {
     /**
-     * @param $currencyFrom
-     * @param $currencyTo
-     * @param $amount
+     * @param string $currencyFrom
+     * @param string $currencyTo
+     * @param float $amount
      * @return float|int
      */
-    public function conversion($currencyFrom, $currencyTo, $amount)
+    public function conversion(string $currencyFrom,string $currencyTo, float $amount)
     {
         try {
             $response = Http::get(getenv('CURRENCY_RATES') . 'from=' . $currencyFrom . '&to=' . $currencyTo . '&amount=' . $amount)->json();

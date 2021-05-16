@@ -17,5 +17,6 @@ Route::get('/client/{clientId}', 'App\Http\Controllers\ClientController@getClien
 
 Route::post('/account', 'App\Http\Controllers\AccountController@createAccount');
 Route::get('/account/{accountId}', 'App\Http\Controllers\AccountController@getAccount');
+Route::get('/account/{accountId}/history', 'App\Http\Controllers\AccountController@getAccountHistory');
 
 Route::post('/transfer', 'App\Http\Controllers\TransferController@createTransfer');

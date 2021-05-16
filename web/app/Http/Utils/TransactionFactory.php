@@ -6,10 +6,10 @@ namespace App\Http\Utils;
 class TransactionFactory
 {
     /**
-     * @param $data
+     * @param array $data
      * @return Transaction
      */
-    public static function create($data): Transaction
+    public static function create(array $data): Transaction
     {
         return (new Transaction())
             ->setReceiver($data['receiver'] ?? null)

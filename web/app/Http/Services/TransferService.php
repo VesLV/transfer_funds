@@ -4,6 +4,7 @@
 namespace App\Http\Services;
 
 
+use App\Http\Utils\ResponseBuilder;
 use App\Http\Utils\TransactionFactory;
 use App\Models\Account;
 use App\Http\Utils\CurrencyConversion;
@@ -27,10 +28,10 @@ class TransferService
     }
 
     /**
-     * @param $data
+     * @param array $data
      * @return mixed
      */
-    public function createTransfer($data)
+    public function createTransfer(array $data)
     {
         $transaction = TransactionFactory::create($data);
         $sender = Account::find($transaction->getSender());
@@ -70,5 +71,31 @@ class TransferService
             return false;
         }
         return $balance;
+    }
+
+    /**
+     * @param int $accountId
+     * @param array $constrains
+     * @return array
+     */
+    public function getTransferHistory(int $accountId, array $constrains): array
+    {
+        $transactions = $this->getTransfers($accountId);
+        $transactionCount = $this->getTransfers($accountId)->count();
+
+        if (!empty($constrains['offset'])) {
+            $transactions->offset($constrains['offset']);
+        }
+
+        if (!empty($constrains['limit'])) {
+            $transactions->limit($constrains['limit']);
+        }
+
+        return ResponseBuilder::transferHistoryResponse($transactions->get(), $transactionCount, $accountId, $constrains);
+    }
+
+    public function getTransfers($accountId)
+    {
+        return \App\Models\Transaction::where('sender', $accountId)->orWhere('receiver', $accountId)->orderByDesc('created_at');
     }
 }

@@ -7,10 +7,10 @@ use App\Models\Client;
 class ClientService
 {
     /**
-     * @param $data
+     * @param array $data
      * @return bool
      */
-    public function createClient($data): bool
+    public function createClient(array $data): bool
     {
         $client = Client::firstOrNew(['name' => $data['name'], 'surname' => $data['surname']], $data);
         if ($client->exists) {
