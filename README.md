@@ -5,6 +5,8 @@
  - cd into transfer_funds folder
  - run terminal command sh start.sh
  - project is up and running on http://localhost:80
+ - run terminal command docker exec -it app bash
+ - php artisan migrate
 
 In case 80 port is already located in your local machine cd to docker folder open .env and change WEBSERVER_PORT value.
 
