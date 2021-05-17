@@ -13,6 +13,7 @@ class TransferController extends Controller
 {
     /**
      * @param Request $request
+     * @param TransferService $transferService
      * @return \Illuminate\Http\Response
      */
     public function createTransfer(Request $request, TransferService $transferService): Response
@@ -27,7 +28,6 @@ class TransferController extends Controller
         if ($validate->fails()) {
             return response($validate->errors(), JsonResponse::HTTP_BAD_REQUEST);
         }
-
         try {
             $transaction = $transferService->createTransfer($request->all());
         } catch (\RuntimeException $e) {
@@ -35,7 +35,10 @@ class TransferController extends Controller
             return response($e->getMessage());
         } catch (\Exception $e) {
             Log::error($e->getMessage());
-            return response('Fund transfer failed, please try again later', $e->getCode());
+            dump($e->getMessage());
+            dump($e->getCode());
+            exit();
+            return response('Fund transfer failed, please try again later', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         return response( ['id' => $transaction->id], JsonResponse::HTTP_CREATED);

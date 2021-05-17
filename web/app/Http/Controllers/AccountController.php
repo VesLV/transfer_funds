@@ -39,7 +39,7 @@ class AccountController extends Controller
             return response($e->getMessage(), JsonResponse::HTTP_BAD_REQUEST);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
-            return response('Internal server error, please try again', $e->getCode());
+            return response('Internal server error, please try again', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 

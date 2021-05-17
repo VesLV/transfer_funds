@@ -4,11 +4,12 @@
 namespace App\Http\Services;
 
 
+use App\Http\Utils\CurrencyConversion;
 use App\Http\Utils\ResponseBuilder;
+use App\Http\Utils\Transaction;
 use App\Http\Utils\TransactionFactory;
 use App\Models\Account;
-use App\Http\Utils\CurrencyConversion;
-use App\Http\Utils\Transaction;
+use Illuminate\Support\Facades\DB;
 
 class TransferService
 {
@@ -45,14 +46,13 @@ class TransferService
             throw new \RuntimeException('Insufficient funds. Transfer Canceled');
         }
 
-        $sender->balance = $balance;
-        $receiver->balance = $receiver->balance + $transaction->getAmount();
-
-        $transaction = \App\Models\Transaction::create($transaction->jsonSerialize());
-        $sender->save();
-        $receiver->save();
-
-        return $transaction;
+        return DB::transaction(function () use ($balance, $sender, $receiver, $transaction) {
+            $sender->balance = $balance;
+            $receiver->balance = $receiver->balance + $transaction->getAmount();
+            $sender->save();
+            $receiver->save();
+            return \App\Models\Transaction::create($transaction->jsonSerialize());
+        });
     }
 
     /**
